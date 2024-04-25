@@ -1,0 +1,15 @@
+layout (location = 0) in vec4 vertPosition;
+layout (location = 1) in vec3 vertColor;
+layout (location = 2) in vec2 vertUV;
+
+layout (location = 0) out vec2 fragUV;
+layout (location = 1) out vec3 fragColor;
+layout (location = 2) out float panelLeft;
+
+void main() {
+	gl_Position = vertPosition;
+	fragUV = vertUV;
+	fragColor = vertColor;
+
+	panelLeft = (vertPosition.x < 0.0f) ? -1.0f : 1.0f;
+}

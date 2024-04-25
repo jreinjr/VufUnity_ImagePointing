@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<QCARInfo>
+    <TargetSet version="3.4">
+        <AreaTarget version="5.2" bbox="-2.6394 -3.2395 -23.4595 12.2095 6.5241 3.4663" area="50" targetId="e01b55c035914f20971386b39e6ee25a" name="jbn-240422" pathAuthoring="e01b55c035914f20971386b39e6ee25a_authoring.glb" pathOcclusion="e01b55c035914f20971386b39e6ee25a_occlusion.3dt" pathNavMesh="e01b55c035914f20971386b39e6ee25a_navmesh.glb" cloudTarget="false" />
+    </TargetSet>
+</QCARInfo>

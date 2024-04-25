@@ -1,0 +1,15 @@
+layout (location = 0) in vec2 fragUV;
+layout (location = 1) in vec3 fragColor;
+layout (location = 2) in float panelLeft;
+
+layout (location = 0) out vec4 outFragColor;
+
+layout (set = 0, binding = 0) uniform sampler2D leftPanelTexture;
+layout (set = 0, binding = 1) uniform sampler2D rightPanelTexture;
+
+void main() {
+	float alpha = (panelLeft < 0.0f) ? texture(leftPanelTexture, fragUV).r : texture(rightPanelTexture, fragUV).r;
+
+	// TODO(sangarg): Check if we need to update the color. Currently using black
+	outFragColor = vec4(vec3(0.0), alpha);
+};

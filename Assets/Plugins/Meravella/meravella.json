@@ -1,0 +1,36 @@
+{
+    "DimmingPanelParams":
+    {
+      "ResolutionX": 48,
+      "ResolutionY": 40,
+      "VendorId": 259,
+      "LeftPanelId": 34048,
+      "RightPanelId": 34049
+    },
+    "SimulatorParams":
+    {
+      "VertShaderPath": "assets/shaders/simulator_vert.sca",
+      "FragShaderPath": "assets/shaders/simulator_frag.sca"
+    },
+    "WindowParams":
+    {
+      "TargetWidth": 1600,
+      "TargetHeight": 720
+    },
+    "AriaParams":
+    {
+      "Profile": "profile23",
+      "StreamingInterface": "usb",
+      "VrsFolderPath": "assets/vrsData",
+      "RgbImageBufferSize": 2764800,
+      "VioEnabled": true,
+      "VioDataSavingEnabled": true,
+      "EnableRgbData": true,
+      "EnableHeadPoseData": true,
+      "UndistortedRgbStream": true,
+      "JpegRgb": true,
+      "LinearCameraImageWidth": 960,
+      "LinearCameraImageHeight": 960,
+      "LinearCameraImageFocalLength": 350.0
+    }
+}

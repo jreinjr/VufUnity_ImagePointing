@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QCARConfig>
+  <Tracking>
+    <ImageTarget name="luncheon_of_the_boating_party" size="0.378460 0.279410" />
+    <ImageTarget name="the-last-supper-sm" size="0.430000 0.215000" />
+    <ImageTarget name="la_nascita_di_venere_sm" size="0.430000 0.270155" />
+    <ImageTarget name="the_garden_of_earthly_delights-sm" size="0.430000 0.244773" />
+    <ImageTarget name="whereswaldoposter2" size="0.914400 0.571053" />
+  </Tracking>
+</QCARConfig>
