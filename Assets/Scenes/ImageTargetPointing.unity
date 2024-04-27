@@ -1432,6 +1432,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 967e8da094223744d9d33fe369d341c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  vufunityDriver: {fileID: 1963580581}
   renderTexture: {fileID: 8400000, guid: d447a37502c62784691179ae1dec25d2, type: 2}
 --- !u!4 &387665596
 Transform:
@@ -4295,7 +4296,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1790772141
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4543,7 +4544,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lcdDataProvider_L: {fileID: 1873509579}
   lcdDataProvider_R: {fileID: 1873509578}
-  sendRateHz: 30
+  sendRateHz: 120
   sendOnStart: 1
 --- !u!1 &1905476557
 GameObject:

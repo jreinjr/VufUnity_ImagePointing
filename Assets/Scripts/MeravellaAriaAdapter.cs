@@ -67,6 +67,9 @@ public class MeravellaAriaAdapter : MonoBehaviour
     public static extern MERAVELLA_Error MV_Aria_GetRgbImage(ref AriaImageMetadata ariaImage, ref byte data);
 
     // Data
+    //References
+    [SerializeField] VufUnityDriver vufunityDriver;
+
 
     // public
     public RenderTexture renderTexture;
@@ -74,9 +77,12 @@ public class MeravellaAriaAdapter : MonoBehaviour
     // private
     private const uint kHeadPoseArraySize = 7;
     private float[] headPose_;
+    byte[] vufunityRgbData;
+    const int VUFUNITY_RGB_BUFFER_SIZE = (960 * 720 * 3);
     private uint rgbImageBufferSize_;
     private AriaImageMetadata ariaImage_;
     private byte[] data_;
+
     private bool isConnected_ = false;
     private bool isStreaming_ = false;
     private Texture2D texture2D_;
@@ -84,6 +90,8 @@ public class MeravellaAriaAdapter : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        vufunityRgbData = new byte[VUFUNITY_RGB_BUFFER_SIZE];
+
         // Set the path to the meravella folder
         string configFolderPath = Application.dataPath + "/Plugins/Meravella";
 
@@ -196,13 +204,16 @@ public class MeravellaAriaAdapter : MonoBehaviour
         }
         else
         {
-            // Create a new Texture2D object
-            texture2D_ = new Texture2D((int)ariaImage_.imageWidth, (int)ariaImage_.imageHeight);
-            // Load the image data into the texture
-            texture2D_.LoadImage(data_);
-            Graphics.Blit(texture2D_, renderTexture);
-            Destroy(texture2D_);
-            texture2D_ = null;
+            Buffer.BlockCopy(data_, 0, vufunityRgbData, 0, VUFUNITY_RGB_BUFFER_SIZE);
+
+            vufunityDriver.SendCameraFrame(vufunityRgbData);
+            //// Create a new Texture2D object
+            //texture2D_ = new Texture2D((int)ariaImage_.imageWidth, (int)ariaImage_.imageHeight);
+            //// Load the image data into the texture
+            //texture2D_.LoadImage(data_);
+            //Graphics.Blit(texture2D_, renderTexture);
+            //Destroy(texture2D_);
+            //texture2D_ = null;
         }
     }
 }

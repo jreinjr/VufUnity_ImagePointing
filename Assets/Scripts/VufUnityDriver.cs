@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using Vuforia;
 
-public class LoadVufUnityDriver : MonoBehaviour 
+public class VufUnityDriver : MonoBehaviour 
 {
     public RenderTexture vuforiaTexture;
     private Texture2D tempTexture;
@@ -28,16 +28,16 @@ public class LoadVufUnityDriver : MonoBehaviour
         //SendCameraFrame();
     }
 
-    void Update()
-    {
-        RenderTexture.active = vuforiaTexture;
-        tempTexture.ReadPixels(new Rect(0, 0, vuforiaTexture.width, vuforiaTexture.height), 0, 0);
-        tempTexture.Apply();
-        RenderTexture.active = null;
+    //void Update()
+    //{
+    //    RenderTexture.active = vuforiaTexture;
+    //    tempTexture.ReadPixels(new Rect(0, 0, vuforiaTexture.width, vuforiaTexture.height), 0, 0);
+    //    tempTexture.Apply();
+    //    RenderTexture.active = null;
 
-        byte[] rgbData = tempTexture.GetRawTextureData();
-        SendCameraFrame(rgbData);
-    }
+    //    byte[] rgbData = tempTexture.GetRawTextureData();
+    //    SendCameraFrame(rgbData);
+    //}
 
     public void SendCameraFrame(byte[] rgbData)
     {
