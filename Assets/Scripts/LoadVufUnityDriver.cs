@@ -28,7 +28,7 @@ public class LoadVufUnityDriver : MonoBehaviour
         //SendCameraFrame();
     }
 
-    void FixedUpdate()
+    void Update()
     {
         RenderTexture.active = vuforiaTexture;
         tempTexture.ReadPixels(new Rect(0, 0, vuforiaTexture.width, vuforiaTexture.height), 0, 0);
