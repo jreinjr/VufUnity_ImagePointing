@@ -28,7 +28,7 @@
       "EnableRgbData": true,
       "EnableHeadPoseData": true,
       "UndistortedRgbStream": true,
-      "JpegRgb": true,
+      "JpegRgb": false,
       "LinearCameraImageWidth": 960,
       "LinearCameraImageHeight": 960,
       "LinearCameraImageFocalLength": 350.0

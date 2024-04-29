@@ -8,6 +8,7 @@ using UnityEngine;
 using System;
 using System.Linq;
 using System.Threading;
+using PimDeWitte.UnityMainThreadDispatcher;
 
 public class MeravellaAriaAdapter : MonoBehaviour
 {
@@ -78,8 +79,8 @@ public class MeravellaAriaAdapter : MonoBehaviour
     private const uint kHeadPoseArraySize = 7;
     private float[] headPose_;
     byte[] vufunityRgbData;
+    const int ARIA_RGB_BUFFER_SIZE = (960 * 960 * 3);
     const int VUFUNITY_RGB_BUFFER_SIZE = (960 * 720 * 3);
-    private uint rgbImageBufferSize_;
     private AriaImageMetadata ariaImage_;
     private byte[] data_;
 
@@ -87,10 +88,21 @@ public class MeravellaAriaAdapter : MonoBehaviour
     private bool isStreaming_ = false;
     private Texture2D texture2D_;
 
+    bool shouldCopyData = false;
+    protected Thread copyDataThread;
+    protected int copyDelayMs;
+    public float copyRateHz = 30; // How many times per second to send data to the LCD
+
+
     // Start is called before the first frame update
     void Start()
     {
         vufunityRgbData = new byte[VUFUNITY_RGB_BUFFER_SIZE];
+        data_ = new byte[ARIA_RGB_BUFFER_SIZE];
+
+        //copyDelayMs = (int)((1f / copyRateHz) * 1000);
+        //copyDataThread = new Thread(CopyDataLoopThreaded);
+        //shouldCopyData = true;
 
         // Set the path to the meravella folder
         string configFolderPath = Application.dataPath + "/Plugins/Meravella";
@@ -117,11 +129,9 @@ public class MeravellaAriaAdapter : MonoBehaviour
             MV_Aria_Connect();
             MV_Aria_StartStreaming();
             headPose_ = new float[kHeadPoseArraySize];
-            MV_Aria_GetRgbImageBufferSize(ref rgbImageBufferSize_);
-            Debug.Log("rgbImageBufferSize: " + rgbImageBufferSize_.ToString());
-            data_ = new byte[rgbImageBufferSize_];
 
-            RenderTexture.active = renderTexture;
+            //copyDataThread.Start();
+
         }
         catch
         {
@@ -129,33 +139,40 @@ public class MeravellaAriaAdapter : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
+
+    private void Update()
     {
         try
         {
-            if (!isConnected_) {
+            if (!isConnected_)
+            {
                 isConnected_ = MV_Aria_IsConnected();
                 Debug.Log("IsConnected: " + isConnected_);
                 return;
             }
-            if (!isStreaming_) {
+            if (!isStreaming_)
+            {
                 isStreaming_ = MV_Aria_IsStreaming();
                 Debug.Log("IsStreaming: " + isStreaming_);
                 return;
             }
 
-            getHeadPose();
+            //getHeadPose();
             getRgbImage();
         }
         catch
         {
             Debug.Log("Update exception");
         }
+
     }
+
 
     void OnDestroy()
     {
+        //shouldCopyData = false;
+        //copyDataThread.Join();
+
         try
         {
             Debug.Log("Stop stream and disconnect");
@@ -196,6 +213,11 @@ public class MeravellaAriaAdapter : MonoBehaviour
 
     private void getRgbImage()
     {
+        //UnityMainThreadDispatcher.Instance().Enqueue(() => MV_Aria_GetRgbImage(ref ariaImage_, ref data_[0]));
+        //Buffer.BlockCopy(data_, 0, vufunityRgbData, 0, VUFUNITY_RGB_BUFFER_SIZE);
+
+        //UnityMainThreadDispatcher.Instance().Enqueue(() => vufunityDriver.SendCameraFrame(vufunityRgbData));
+
         // Get the rgb image from Aria
         MERAVELLA_Error errorCode = MV_Aria_GetRgbImage(ref ariaImage_, ref data_[0]);
         if (errorCode != MERAVELLA_Error.MERAVELLA_Success)
@@ -204,16 +226,10 @@ public class MeravellaAriaAdapter : MonoBehaviour
         }
         else
         {
-            Buffer.BlockCopy(data_, 0, vufunityRgbData, 0, VUFUNITY_RGB_BUFFER_SIZE);
+             ImageManipulator.RotateFlipAndCrop(ref data_, ref vufunityRgbData, 960, 960, 960, 720, 3);
+            //Buffer.BlockCopy(data_, 0, vufunityRgbData, 0, VUFUNITY_RGB_BUFFER_SIZE);
 
             vufunityDriver.SendCameraFrame(vufunityRgbData);
-            //// Create a new Texture2D object
-            //texture2D_ = new Texture2D((int)ariaImage_.imageWidth, (int)ariaImage_.imageHeight);
-            //// Load the image data into the texture
-            //texture2D_.LoadImage(data_);
-            //Graphics.Blit(texture2D_, renderTexture);
-            //Destroy(texture2D_);
-            //texture2D_ = null;
         }
     }
 }
